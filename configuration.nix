@@ -46,8 +46,8 @@
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -94,27 +94,30 @@
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile.
-  environment.systemPackages = with pkgs; [
-   helix
-   git
-   bitwarden-desktop
-   libreoffice
-   hunspell
-   hunspellDicts.en_US
-   gimp
-   inkscape
-   yt-dlp
-   ffmpeg
-   obs-studio
-   texliveFull
-   chromium
-   papers
-   showtime
- #  pdfarranger
-   tesseract4
-   joplin-desktop
-   xournalpp
-   mumble
+  environment.systemPackages =  with pkgs;
+
+   [
+     helix
+     git
+     bitwarden-desktop
+     libreoffice
+     hunspell
+     hunspellDicts.en_US
+     gimp
+     inkscape
+     yt-dlp
+     ffmpeg
+     obs-studio
+     texliveFull
+     chromium
+     papers
+     showtime
+   # pdfarranger #would not build 2025-10-10
+     tesseract4
+     joplin-desktop
+     xournalpp
+     mumble
+     R
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -204,7 +207,12 @@
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
-  
+
+
+   # Enable flakes
+   services.flatpak.enable = true;
+ 
+   
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
