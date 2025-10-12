@@ -81,7 +81,7 @@
   users.users.ernstrom = {
     isNormalUser = true;
     description = "Glen Ernstrom";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "scanner" "lp" ];
     packages = with pkgs; [
     #  thunderbird
     ];
@@ -102,33 +102,50 @@
         dplyr
       ];
      };
+
+     RStudio-with-my-packages = rstudioWrapper.override {
+       packages = with rPackages; [
+         ggplot2
+	 dplyr
+       ];
+      };
    in
    [
+    # science!
      R-with-my-packages
-     helix
+     RStudio-with-my-packages
+     pymol
+     fiji
+
+    # tui
      git
+     tesseract4
+
+    # utilities
      bitwarden-desktop
+     mumble
+     chromium
+     distrobox
+     
+
+    # writing and research
      libreoffice
      hunspell
      hunspellDicts.en_US
+     texliveFull
+     papers
+     pdfarranger
+     joplin-desktop
+
+    # graphics
      gimp
      inkscape
+     xournalpp
+    
+    # video
      yt-dlp
      ffmpeg
      obs-studio
-     texliveFull
-     chromium
-     papers
-     showtime
-     pdfarranger
-     tesseract4
-     joplin-desktop
-     xournalpp
-     mumble
-     rstudio
-     fiji
-     distrobox
-     pymol
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -212,7 +229,7 @@
     open = true;
 
     # Enable the Nvidia settings menu,
-	# accessible via `nvidia-settings`.
+    # accessible via `nvidia-settings`.
     nvidiaSettings = true;
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
@@ -236,7 +253,7 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  
+  # Optimize the system
    nix.optimise.automatic = true;
    nix.optimise.dates = [ "03:45" ];
 
@@ -245,8 +262,12 @@
     enable = true;
     dockerCompat = true;
    };
-   
+
+   # Enable neovim 
    programs.neovim.enable = true;
+
+   # Enable fish
+   programs.fish.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
