@@ -95,8 +95,16 @@
 
   # List packages installed in system profile.
   environment.systemPackages =  with pkgs;
-
+   let
+     R-with-my-packages = rWrapper.override { 
+      packages = with rPackages; [
+        ggplot2
+        dplyr
+      ];
+     };
+   in
    [
+     R-with-my-packages
      helix
      git
      bitwarden-desktop
@@ -112,12 +120,15 @@
      chromium
      papers
      showtime
-   # pdfarranger #would not build 2025-10-10
+     pdfarranger
      tesseract4
      joplin-desktop
      xournalpp
      mumble
-     R
+     rstudio
+     fiji
+     distrobox
+     pymol
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -205,8 +216,11 @@
     nvidiaSettings = true;
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.beta;
   };
+
+   # Use the latest kernel
+   boot.kernelPackages = pkgs.linuxPackages_latest;
 
 
    # Enable flakes
@@ -217,10 +231,22 @@
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+   networking.firewall.allowedTCPPorts = [ 64738 ];
+   networking.firewall.allowedUDPPorts = [ 64738 ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  
+   nix.optimise.automatic = true;
+   nix.optimise.dates = [ "03:45" ];
+
+   # Set up Distrobox
+   virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
+   };
+   
+   programs.neovim.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
