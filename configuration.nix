@@ -262,6 +262,17 @@
     enable = true;
     dockerCompat = true;
    };
+   
+   # Enable nvf
+     programs.nvf = {
+       enable = true;
+
+     settings = {
+       vim.theme.enable = true;
+       vim.theme.name = "catppuccin";
+       vim.theme.style = "mocha";
+    };
+   };
 
    # Enable neovim 
    programs.neovim.enable = true;

@@ -3,17 +3,21 @@
 
   inputs = {
      nixpkgs.url = "nixpkgs/nixos-unstable";
+     nvf.url = "github:notashelf/nvf";
   };
 
-  outputs = {self, nixpkgs, ...}:
+  outputs = {self, nixpkgs, nvf, ...}:
    let
      lib = nixpkgs.lib;
    in {
    nixosConfigurations = {
       lutra = lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [ ./configuration.nix ];
+        modules = [
+	  ./configuration.nix 
+          nvf.nixosModules.default
+	 ];
+       };
       };
      };
-    };
  }
