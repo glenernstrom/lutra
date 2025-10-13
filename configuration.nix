@@ -4,6 +4,8 @@
 
 { config, pkgs, ... }:
 
+
+
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -148,45 +150,25 @@
      obs-studio
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
 
   # List services that you want to enable:
 
-  hardware.bluetooth = {
-  enable = true;
-  powerOnBoot = true;
-  settings = {
-    General = {
-      # Shows battery charge of connected devices on supported
-      # Bluetooth adapters. Defaults to 'false'.
-      Experimental = true;
-      # When enabled other devices can connect faster to us, however
-      # the tradeoff is increased power consumption. Defaults to
-      # 'false'.
-      FastConnectable = true;
-    };
-    Policy = {
-      # Enable all controllers when they are found. This includes
-      # adapters present on start as well as adapters that are plugged
-      # in later on. Defaults to 'true'.
-      AutoEnable = true;
-    };
-   };
-  };
+  # Nvidia graphics settings
+  hardware.graphics.enable = true;
+  services.xserver.videoDrivers = ["nvidia"];
+ # hardware.nvidia.modesetting.enable = true;
+ # hardware.nvidia.powermanagement.enable = true;
+  hardware.nvidia.open = false;
+  hardware.nvidia.nvidiaSettings = true;
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.beta;
 
-  # Enable support for SANE scanners
+  hardware.bluetooth.enable = true;
+
+  # For SANE scanner support
   hardware.sane.enable = true;
 
-  # Enable Tailscale mesh VPN
   services.tailscale.enable = true;
 
-  # Enable Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ]; 
 
   # Enable Steam
@@ -197,61 +179,14 @@
    localNetworkGameTransfers.openFirewall = true;
   };
 
-  # Enable OpenGL
-  hardware.graphics = {
-    enable = true;
-  };
-
-  # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"];
-
-  hardware.nvidia = {
-
-    # Modesetting is required.
-    modesetting.enable = true;
-
-    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    # Enable this if you have graphical corruption issues or application crashes after waking
-    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
-    # of just the bare essentials.
-    powerManagement.enable = true;
-
-    # Fine-grained power management. Turns off GPU when not in use.
-    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
-    powerManagement.finegrained = false;
-
-    # Use the NVidia open source kernel module (not to be confused with the
-    # independent third-party "nouveau" open source driver).
-    # Support is limited to the Turing and later architectures. Full list of 
-    # supported GPUs is at: 
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
-    # Only available from driver 515.43.04+
-    open = true;
-
-    # Enable the Nvidia settings menu,
-    # accessible via `nvidia-settings`.
-    nvidiaSettings = true;
-
-    # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
-  };
-
-   # Use the latest kernel
    boot.kernelPackages = pkgs.linuxPackages_latest;
-
 
    # Enable flakes
    services.flatpak.enable = true;
- 
    
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
   # Open ports in the firewall.
    networking.firewall.allowedTCPPorts = [ 64738 ];
    networking.firewall.allowedUDPPorts = [ 64738 ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # Optimize the system
    nix.optimise.automatic = true;
@@ -271,13 +206,11 @@
        vim.theme.enable = true;
        vim.theme.name = "catppuccin";
        vim.theme.style = "mocha";
+     };
     };
-   };
 
-   # Enable neovim 
    programs.neovim.enable = true;
 
-   # Enable fish
    programs.fish.enable = true;
 
   # This value determines the NixOS release from which the default
