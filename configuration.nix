@@ -45,11 +45,16 @@
   };
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  # services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
+  # services.displayManager.gdm.enable = true;
+  # services.desktopManager.gnome.enable = true;
+
+  services.xserver.enable = true; # optional
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -128,10 +133,11 @@
      mumble
      chromium
      distrobox
+     pcloud
      
 
     # writing and research
-     libreoffice
+     libreoffice-qt
      hunspell
      hunspellDicts.en_US
      texliveFull
@@ -143,6 +149,7 @@
      gimp
      inkscape
      xournalpp
+     karp
     
     # video
      yt-dlp
@@ -153,13 +160,19 @@
 
   # List services that you want to enable:
 
+  # Enable bluetooth
   hardware.bluetooth.enable = true;
 
   # For SANE scanner support
   hardware.sane.enable = true;
 
+  # Enable Tailscale mesh network VPN
   services.tailscale.enable = true;
 
+  # Enable hardware graphic acceleration
+  hardware.graphics.enable = true;
+
+  # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ]; 
 
   # Enable Steam
