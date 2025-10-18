@@ -19,5 +19,5 @@
        vim.clipboard.enable = true;
        
      };
-
+    };
 }
