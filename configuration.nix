@@ -4,12 +4,12 @@
 
 { config, pkgs, ... }:
 
-
-
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./nixosModules/nvidia.nix
+      ./nixosModules/nvf.nix
     ];
 
   # Bootloader.
@@ -153,15 +153,6 @@
 
   # List services that you want to enable:
 
-  # Nvidia graphics settings
-  hardware.graphics.enable = true;
-  services.xserver.videoDrivers = ["nvidia"];
-  hardware.nvidia.modesetting.enable = true;
-  hardware.nvidia.powerManagement.enable = true;
-  hardware.nvidia.open = true;
-  hardware.nvidia.nvidiaSettings = true;
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.beta;
-
   hardware.bluetooth.enable = true;
 
   # For SANE scanner support
@@ -198,16 +189,13 @@
     dockerCompat = true;
    };
    
-   # Enable nvf
-     programs.nvf = {
-       enable = true;
-
-     settings = {
-       vim.theme.enable = true;
-       vim.theme.name = "catppuccin";
-       vim.theme.style = "mocha";
-     };
-    };
+   fonts.packages = with pkgs; [
+      helvetica-neue-lt-std
+      aileron
+      fira-code
+      nerd-fonts.jetbrains-mono
+      garamond-libre
+    ];
 
    programs.neovim.enable = true;
 
