@@ -114,6 +114,7 @@
      chromium
      distrobox
      pcloud
+     kdePackages.skanpage
      
     # writing and research
      libreoffice-qt
@@ -123,6 +124,10 @@
      papers
      pdfarranger
      joplin-desktop
+     kdePackages.arianna
+     kdePackages.akregator
+     kdePackages.yakuake
+     kdePackages.ghostwriter
 
     # graphics
      gimp
@@ -130,6 +135,11 @@
      xournalpp
      karp
      scribus
+     rnote
+     krita
+
+     # audio
+     kdePackages.kasts
 
     
     # video
@@ -189,6 +199,10 @@
       fira-code
       nerd-fonts.jetbrains-mono
       garamond-libre
+      roboto-mono
+      roboto-flex
+      noto-fonts
+      source-code-pro
     ];
 
    programs.neovim.enable = true;
