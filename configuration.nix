@@ -10,6 +10,7 @@
       ./hardware-configuration.nix
       ./nixosModules/nvidia.nix
       ./nixosModules/nvf.nix
+      ./nixosModules/science.nix
     ];
 
   # Bootloader.
@@ -102,28 +103,7 @@
 
   # List packages installed in system profile.
   environment.systemPackages =  with pkgs;
-   let
-     R-with-my-packages = rWrapper.override { 
-      packages = with rPackages; [
-        ggplot2
-        dplyr
-      ];
-     };
-
-     RStudio-with-my-packages = rstudioWrapper.override {
-       packages = with rPackages; [
-         ggplot2
-	 dplyr
-       ];
-      };
-   in
    [
-    # science!
-     R-with-my-packages
-     RStudio-with-my-packages
-     pymol
-     fiji
-
     # tui
      git
      tesseract4
@@ -135,7 +115,6 @@
      distrobox
      pcloud
      
-
     # writing and research
      libreoffice-qt
      hunspell
@@ -150,6 +129,8 @@
      inkscape
      xournalpp
      karp
+     scribus
+
     
     # video
      yt-dlp
