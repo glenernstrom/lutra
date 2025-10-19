@@ -26,7 +26,7 @@
      fiji
      kdePackages.kalzium
      labplot
-     kstars
+    # kstars
    ];
 
 }
